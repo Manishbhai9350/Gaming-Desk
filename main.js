@@ -1,9 +1,4 @@
-import "./style.css";
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import * as Three from "three";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import Lenis from 'https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/+esm'
 
 const lenis = new Lenis();
 gsap.registerPlugin(ScrollTrigger);
@@ -14,18 +9,18 @@ gsap.ticker.add((time) => {
 });
 gsap.ticker.lagSmoothing(0);
 
-const scene = new Three.Scene();
+const scene = new THREE.Scene();
 
-const renderer = new Three.WebGLRenderer({ antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = Three.PCFSoftShadowMap;
-renderer.toneMapping = Three.ACESFilmicToneMapping;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 2;
 
 document.querySelector(".model").appendChild(renderer.domElement);
 
-const camera = new Three.PerspectiveCamera(
+const camera = new THREE.PerspectiveCamera(
   75,
   innerWidth / innerHeight,
   0.1,
@@ -34,17 +29,17 @@ const camera = new Three.PerspectiveCamera(
 scene.add(camera);
 camera.position.z = 10;
 
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 
 let Desk;
 let floatingSpeed = 2.5;
 let floatAmp = 0.6;
 
-loader.load("/model/gaming_desk.glb", (gltf) => {
+loader.load("./public/model/gaming_desk.glb", (gltf) => {
   Desk = gltf.scene;
 
-  const box = new Three.Box3().setFromObject(Desk);
-  const center = box.getCenter(new Three.Vector3());
+  const box = new THREE.Box3().setFromObject(Desk);
+  const center = box.getCenter(new THREE.Vector3());
   Desk.position.sub(center);
   Desk.position.set(0, -2, 0);
   Desk.scale.setScalar(4);
@@ -100,12 +95,12 @@ loader.load("/model/gaming_desk.glb", (gltf) => {
 
 // ??  Adding Lights
 
-const Amb = new Three.AmbientLight(0xffffff, 0.6);
-const Dir = new Three.DirectionalLight(0xffffff, 1);
+const Amb = new THREE.AmbientLight(0xffffff, 0.6);
+const Dir = new THREE.DirectionalLight(0xffffff, 1);
 Dir.position.set(-10, 0, -5);
-const Dir2 = new Three.DirectionalLight(0x000000, 2);
+const Dir2 = new THREE.DirectionalLight(0x000000, 2);
 Dir.position.set(10, 0, -5);
-const Dir3 = new Three.DirectionalLight(0xffffff, 1);
+const Dir3 = new THREE.DirectionalLight(0xffffff, 1);
 Dir.position.set(0, 10, 0);
 
 scene.add(Amb, Dir, Dir2, Dir3);
